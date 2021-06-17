@@ -33,7 +33,7 @@ async function bootstrap() {
   const app = await createNestApplication();
   const config = createSwaggerDocsConfig();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger-ui', app, document);
   await app.listen(port);
   Logger.log(`server on ${port}`, 'Bootstrap');
 }

@@ -1,9 +1,10 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { EasyconfigModule, EasyconfigService } from 'nestjs-easyconfig';
 import Neis from '@my-school.info/neis-api';
+import { ConfigModule } from '../config/config.module';
+import { ConfigService } from '../config/config.service';
 
 @Module({
-  imports: [EasyconfigModule],
+  imports: [ConfigModule],
 })
 export class NeisModule {
   public static NeisInjectToken = 'NeisInjectToken';
@@ -13,9 +14,9 @@ export class NeisModule {
       module: NeisModule,
       providers: [
         {
-          inject: [EasyconfigService],
+          inject: [ConfigService],
           provide: NeisModule.NeisInjectToken,
-          useFactory: (configService: EasyconfigService) => {
+          useFactory: (configService: ConfigService) => {
             return new Neis({
               KEY: configService.get('NEIS_API_KEY'),
               Type: 'json',
