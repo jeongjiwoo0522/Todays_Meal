@@ -1,5 +1,5 @@
-import "dotenv/config";
-import { Injectable } from "@nestjs/common";
+import 'dotenv/config';
+import { Injectable } from '@nestjs/common';
 
 export interface EnvironmentConfig {
   [key: string]: string;
