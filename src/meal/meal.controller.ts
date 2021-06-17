@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetMealInfoResponse } from './dto/response/getMealInfoResponse';
 import { MealService } from './meal.service';
@@ -35,7 +35,7 @@ export class MealController {
     example: "20210617"
   })
   @ApiResponse({ status: 200, type: GetMealInfoResponse })
-  public requestMealInfo() {
-    return this.mealService.getMealInfo();
+  public requestMealInfo(@Query() { ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE, MLSV_YMD }) {
+    return this.mealService.getMealInfo(ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE, MLSV_YMD);
   }
 }

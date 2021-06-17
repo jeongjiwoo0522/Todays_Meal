@@ -1,13 +1,37 @@
 import Neis from '@my-school.info/neis-api';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { NeisModule } from '../neis/neis.module';
+import { GetMealInfoResponse } from './dto/response/getMealInfoResponse';
+import { IMealInfoRow } from './interface/IMealInfo';
 
 @Injectable()
 export class MealService {
   constructor(
     @Inject(NeisModule.NeisInjectToken)
-    neis: Neis,
+    private readonly neis: Neis,
   ) {}
 
-  public async getMealInfo() {}
+  private mealProperty: string[] = ["", "breakfast", "lunch", "dinner"];
+
+  public async getMealInfo(atptCode: string, schoolCode: string, yyyymmdd: string): Promise<GetMealInfoResponse> {
+    try {
+      const rows: IMealInfoRow[] = await this.neis.getMealInfo({
+        ATPT_OFCDC_SC_CODE: atptCode,
+        SD_SCHUL_CODE: schoolCode,
+        MLSV_YMD: yyyymmdd,
+      });
+      const result = new GetMealInfoResponse();
+      rows.forEach((row: IMealInfoRow) => {
+        /**
+         * 잡곡밥5.<br\>들깨수제비국5.6.9.13.<br\>깻잎&쌈무와 같은 형식을  
+         * 잡곡밥||들깨수제비국||깻잎&쌈무로 바꿉니다
+         */
+        const meal: string[] = row.DDISH_NM.replace(/([0-9]+\.)+/g, "").split("<br/>");
+        result[this.mealProperty[row.MMEAL_SC_CODE]] = meal;
+      });
+      return result;
+    } catch(err) {
+      throw new HttpException(err.message, 400);
+    }
+  }
 }
