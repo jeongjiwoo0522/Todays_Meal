@@ -11,9 +11,13 @@ export class MealService {
     private readonly neis: Neis,
   ) {}
 
-  private mealProperty: string[] = ["", "breakfast", "lunch", "dinner"];
+  private mealProperty: string[] = ['', 'breakfast', 'lunch', 'dinner'];
 
-  public async getMealInfo(atptCode: string, schoolCode: string, yyyymmdd: string): Promise<GetMealInfoResponse> {
+  public async getMealInfo(
+    atptCode: string,
+    schoolCode: string,
+    yyyymmdd: string,
+  ): Promise<GetMealInfoResponse> {
     try {
       const rows: IMealInfoRow[] = await this.neis.getMealInfo({
         ATPT_OFCDC_SC_CODE: atptCode,
@@ -23,14 +27,16 @@ export class MealService {
       const result = new GetMealInfoResponse();
       rows.forEach((row: IMealInfoRow) => {
         /**
-         * 잡곡밥5.<br\>들깨수제비국5.6.9.13.<br\>깻잎&쌈무와 같은 형식을  
+         * 잡곡밥5.<br\>들깨수제비국5.6.9.13.<br\>깻잎&쌈무와 같은 형식을
          * 잡곡밥||들깨수제비국||깻잎&쌈무로 바꿉니다
          */
-        const meal: string[] = row.DDISH_NM.replace(/([0-9]+\.)+/g, "").split("<br/>");
+        const meal: string[] = row.DDISH_NM.replace(/([0-9]+\.)+/g, '').split(
+          '<br/>',
+        );
         result[this.mealProperty[row.MMEAL_SC_CODE]] = meal;
       });
       return result;
-    } catch(err) {
+    } catch (err) {
       throw new HttpException(err.message, 400);
     }
   }

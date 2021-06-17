@@ -18,24 +18,30 @@ export class MealController {
     description: '시도교육청코드',
     type: String,
     required: true,
-    example: "G10"
+    example: 'G10',
   })
   @ApiQuery({
     name: 'SD_SCHUL_CODE',
     description: '표준학교코드',
     type: String,
     required: true,
-    example: "3943943"
+    example: '3943943',
   })
   @ApiQuery({
     name: 'MLSV_YMD',
     description: '급식일자',
     type: String,
     required: true,
-    example: "20210617"
+    example: '20210617',
   })
   @ApiResponse({ status: 200, type: GetMealInfoResponse })
-  public requestMealInfo(@Query() { ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE, MLSV_YMD }) {
-    return this.mealService.getMealInfo(ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE, MLSV_YMD);
+  public requestMealInfo(
+    @Query() { ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE, MLSV_YMD },
+  ) {
+    return this.mealService.getMealInfo(
+      ATPT_OFCDC_SC_CODE,
+      SD_SCHUL_CODE,
+      MLSV_YMD,
+    );
   }
 }
