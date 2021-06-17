@@ -1,4 +1,5 @@
 import Neis from '@my-school.info/neis-api';
+import { HttpException } from '@nestjs/common';
 import { Inject, Injectable } from '@nestjs/common';
 import { NeisModule } from '../neis/neis.module';
 import { GetSchoolInfoResponse } from './dto/response/getSchoolInfoResponse';
@@ -14,12 +15,16 @@ export class SchoolService {
   public async getSchoolInfo(
     schoolName: string,
   ): Promise<GetSchoolInfoResponse> {
-    const school: ISchoolInfoRow[] = await this.neis.getSchoolInfo({
-      SCHUL_NM: schoolName,
-    });
-    return {
-      ATPT_OFCDC_SC_CODE: school[0].ATPT_OFCDC_SC_CODE,
-      SD_SCHUL_CODE: school[0].SD_SCHUL_CODE,
-    };
+    try {
+      const school: ISchoolInfoRow[] = await this.neis.getSchoolInfo({
+        SCHUL_NM: schoolName,
+      });
+      return {
+        ATPT_OFCDC_SC_CODE: school[0].ATPT_OFCDC_SC_CODE,
+        SD_SCHUL_CODE: school[0].SD_SCHUL_CODE,
+      };
+    } catch (err) {
+      throw new HttpException('Invalid Parameter', 400);
+    }
   }
 }
