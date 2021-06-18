@@ -22,6 +22,7 @@ export class SchoolService {
       return {
         ATPT_OFCDC_SC_CODE: school[0].ATPT_OFCDC_SC_CODE,
         SD_SCHUL_CODE: school[0].SD_SCHUL_CODE,
+        SCHUL_NM: school[0].SCHUL_NM,
       };
     } catch (err) {
       throw new HttpException('Invalid Parameter', 400);

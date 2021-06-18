@@ -10,4 +10,11 @@ export class GetSchoolInfoResponse {
     type: String,
   })
   public readonly SD_SCHUL_CODE: string;
+
+  @ApiProperty({
+    description: '학교이름',
+    example: '대덕소프트웨어마이스터고등학교',
+    type: String,
+  })
+  public readonly SCHUL_NM: string;
 }
