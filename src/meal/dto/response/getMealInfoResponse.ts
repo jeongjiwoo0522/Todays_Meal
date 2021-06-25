@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GetMealInfoResponse {
+  public constructor() {
+    this.breakfast = [];
+    this.lunch = [];
+    this.dinner = [];
+  }
+
   @ApiProperty({
     type: [String],
     example: '[영양닭죽, 진미채오이무침, 나박김치, 야채고기말이, 두부도너츠]',
