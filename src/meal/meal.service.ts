@@ -1,5 +1,5 @@
 import Neis from '@my-school.info/neis-api';
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable, Logger } from '@nestjs/common';
 import { NeisModule } from '../neis/neis.module';
 import { GetMealInfoResponse } from './dto/response/getMealInfoResponse';
 import { IMealInfoRow } from './interface/IMealInfo';
@@ -38,6 +38,7 @@ export class MealService {
       });
       return response;
     } catch (err) {
+      Logger.error(err.message);
       throw new HttpException(err.message, 400);
     }
   }

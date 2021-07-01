@@ -1,5 +1,5 @@
 import Neis from '@my-school.info/neis-api';
-import { HttpException } from '@nestjs/common';
+import { HttpException, Logger } from '@nestjs/common';
 import { Inject, Injectable } from '@nestjs/common';
 import { NeisModule } from '../neis/neis.module';
 import { GetSchoolInfoResponse } from './dto/response/getSchoolInfoResponse';
@@ -25,6 +25,7 @@ export class SchoolService {
         SCHUL_NM: school[0].SCHUL_NM,
       };
     } catch (err) {
+      Logger.error(err.message);
       throw new HttpException('Invalid Parameter', 400);
     }
   }
