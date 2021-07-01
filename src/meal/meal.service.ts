@@ -38,7 +38,7 @@ export class MealService {
       });
       return response;
     } catch (err) {
-      return response;
+      throw new HttpException(err.message, 400);
     }
   }
 }
